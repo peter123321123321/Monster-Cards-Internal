@@ -16,7 +16,7 @@ stats = ["Strength", "Speed", "Stealth", "Cunning"]
 monster_name = eg.enterbox("What is the name of your new MONSTER", "MONSTER name")
 cards[monster_name] = {}
 for i in stats:
-    monster_stat = eg.integerbox(f"What is the level of your MONSTERS {i}", f"MONSTER {i}", lowerbound=1, upperbound=25)
+    monster_stat = eg.integerbox(f"What is the level of your MONSTERS {i}", f"MONSTER {i}")
     cards[monster_name][i] = monster_stat
 while True:
     check = eg.buttonbox(f"Are the details of this MONSTER card correct\n{monster_name}, {cards[monster_name]}",
@@ -26,5 +26,5 @@ while True:
     change = eg.buttonbox("Which stat would you like to change", "Stat change",
                           choices=["Strength", "Speed", "Stealth", "Cunning"])
     change_stat = eg.integerbox(f"The original stat was {cards[monster_name][change]} "
-                                f"what would you like the new stat to be", "Stat change", lowerbound=1, upperbound=25)
+                                f"what would you like the new stat to be", "Stat change")
     cards[monster_name][change] = change_stat

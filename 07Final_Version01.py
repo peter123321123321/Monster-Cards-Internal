@@ -1,3 +1,6 @@
+# combo that adds it to a database so that the monster cards used in previous versions are still there,
+# Let it take float as a price
+
 import easygui as eg
 
 
@@ -25,3 +28,5 @@ def find_show():
 # Main Routine
 welcome()
 eg.msgbox("Thanks for playing with the Monster Cards," "Goodbye, and have fun")
+
+

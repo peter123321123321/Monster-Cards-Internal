@@ -1,3 +1,4 @@
+# added check if user presses cancel and redirect to welcome
 import easygui as eg
 
 cards = {"Stoneling": {"Strength": 7, "Speed": 1, "Stealth": 25, "Cunning": 15},
@@ -10,28 +11,16 @@ cards = {"Stoneling": {"Strength": 7, "Speed": 1, "Stealth": 25, "Cunning": 15},
          "Rotthing": {"Strength": 16, "Speed": 7, "Stealth": 4, "Cunning": 12},
          "Froststep": {"Strength": 14, "Speed": 14, "Stealth": 17, "Cunning": 4},
          "Wispghoul": {"Strength": 17, "Speed": 19, "Stealth": 3, "Cunning": 2}}
-stats = ["Strength", "Speed", "Stealth", "Cunning"]
 monsters = ["Stoneling", "Vexscream", "Dawnmirage", "Blazegolem", "Websnake", "Moldvine", "Vortexwing", "Rotthing",
-            "Froststep", "Wispghoul"]
+            "Froststep", "Wispghoul", "Return"]
+stats = ["Strength", "Speed", "Stealth", "Cunning"]
 
 
-def welcome():
-    while True:
-        guide = eg.buttonbox("Welcome to The Takeaway Shop\n"
-                             "What would you like to do today", "The Takeaway Shop",
-                             choices=["Add or remove a combo", "Find or show combos", "Exit"])
-        if guide == "Exit":
-            break
-        function = {"Add_Remove": add_remove,
-                    "Find_Show": find_show}
-        chosen_function = function.get(guide)
-        chosen_function()
-
-
-def add_remove():
+def add_monster():
     monster_name = eg.enterbox("What is the name of your new MONSTER", "MONSTER name")
     if monster_name is None:
         exit()
+    monsters.append(monster_name)
     cards[monster_name] = {}
     for i in stats:
         monster_stat = eg.integerbox(f"What is the level of your MONSTERS {i}", f"MONSTER {i}", lowerbound=1, upperbound=25)
@@ -54,13 +43,16 @@ def add_remove():
         cards[monster_name][change] = edit_stat
 
 
-
-def find_show():
-
+def remove_monster():
+    remove = ""
+    while remove != "Return":
+        remove = eg.buttonbox("Which MONSTER would you like to remove", "MONSTER Remove", choices=monsters)
+        if remove is None:
+            exit()
+        if cards.get(remove):
+            del cards[remove]
+            monsters.remove(remove)
 
 
 # Main Routine
-welcome()
-eg.msgbox("Thanks for playing with the Monster Cards," "Goodbye, and have fun")
-
-
+remove_monster()

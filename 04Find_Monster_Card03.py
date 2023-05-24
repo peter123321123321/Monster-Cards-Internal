@@ -15,10 +15,39 @@ monsters = ["Stoneling", "Vexscream", "Dawnmirage", "Blazegolem", "Websnake", "M
             "Froststep", "Wispghoul", "Return"]
 
 
+monster_index = 0
+while True:
+    monster_name = monsters[monster_index]
+    monster_stats = cards[monster_name]
+    mns = f"{monster_name}\n"
+
+    for stat in stats:
+        mns += f"[{stat}: {monster_stats[stat]}] "
+    total_stats = sum(monster_stats.values())
+    mns += f"\n[Total Stats: {total_stats}]"
+
+    choice = eg.buttonbox(mns, "MONSTER Catalogue", choices=["Previous", "Next", "Exit"])
+    if choice is None:
+        exit()
+
+    if choice == "Previous":
+        monster_index -= 1
+    elif choice == "Next":
+        monster_index += 1
+        if monster_index >= len(monsters):
+            monster_index = 0
+    else:
+        break
+
+
 find = ""
 while find != "Return":
-    find = eg.buttonbox("Which MONSTER would you like to find", "MONSTER find", choices=monsters)
-    if find is None:
-        exit()
+    find = eg.buttonbox("Which MONSTER would you like to find", "MONSTER find", choices=monsters,)
     monster_find = cards.get(find)
-    eg.msgbox(monster_find)
+    if monster_find is not None:
+        monster_details = f"{find}\n"
+        for stat in stats:
+            monster_details += f"[{stat}: {monster_find[stat]}] "
+        stat_total = sum(monster_find.values())
+        monster_details += f"\n[Total Stats: {total_stats}]"
+        eg.msgbox(monster_details)

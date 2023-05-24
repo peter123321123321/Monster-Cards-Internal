@@ -17,12 +17,12 @@ monsters = ["Stoneling", "Vexscream", "Dawnmirage", "Blazegolem", "Websnake", "M
 
 def welcome():
     while True:
-        function = {"Add_Remove": add_monster,
+        function = {"Add MONSTER": add_monster,
                     "Remove MONSTER": remove_monster,
-                    "Find_Show": find_show,
+                    "Find/Show MONSTER": find_show,
                     "Exit": exit}
-        guide = eg.buttonbox("Welcome to The Takeaway Shop\n"
-                             "What would you like to do today", "The Takeaway Shop",
+        guide = eg.buttonbox("Welcome to The MONSTERS\n"
+                             "What would you like to do today", "The MONSTERS",
                              choices=list(function.keys()))
         if guide == "Exit":
             break
@@ -31,30 +31,31 @@ def welcome():
 
 
 def add_monster():
-    monster_name = eg.enterbox("What is the name of your new MONSTER", "MONSTER name")
+    monster_name = eg.enterbox("What is the name of your new MONSTER", "MONSTER Name")
     if monster_name is None:
-        exit()
+        return
+    elif monster_name in monsters:
+        eg.msgbox("That MONSTER name is already taken", "MONSTER Name Taken")
+        return
     monsters.append(monster_name)
     cards[monster_name] = {}
     for i in stats:
         monster_stat = eg.integerbox(f"What is the level of your MONSTERS {i}", f"MONSTER {i}",
                                      lowerbound=1, upperbound=25)
-        if monster_stat is None:  # Check if the user pressed Cancel
-            exit()
+        if monster_stat is None:
+            return
         cards[monster_name][i] = monster_stat
     while True:
         check = eg.buttonbox(f"Are the details of this MONSTER card correct\n{monster_name}, {cards[monster_name]}",
-                             "Check details", choices=["Yes", "No"])
+                             "Check Details", choices=["Yes", "No"])
         if check == "Yes":
-            break
-        change = eg.buttonbox("Which stat would you like to change", "Stat change",
+            return
+        change = eg.buttonbox("Which stat would you like to change", "Stat Change",
                               choices=["Strength", "Speed", "Stealth", "Cunning"])
-        if change is None:  # Check if the user pressed Cancel
-            exit()
         edit_stat = eg.integerbox(f"The original stat was {cards[monster_name][change]} "
-                                  f"what would you like the new stat to be", "Stat change", lowerbound=1, upperbound=25)
+                                  f"What would you like the new stat to be", "Stat Change", lowerbound=1, upperbound=25)
         if edit_stat is None:
-            exit()
+            return
         cards[monster_name][change] = edit_stat
 
 
@@ -62,7 +63,7 @@ def remove_monster():
     monster_index = 0
     while True:
         if len(monsters) == 0:
-            eg.msgbox("No MONSTERS found in the catalog.")
+            eg.msgbox("No MONSTERS found in the catalogue.")
             return
 
         monster_name = monsters[monster_index]
@@ -94,7 +95,7 @@ def remove_monster():
 
 
 def find_show():
-    choice = eg.buttonbox("Would you like to find a MONSTER or show all MONSTER", "Find or Show MONSTERS",
+    choice = eg.buttonbox("Would you like to view a MONSTER or show all MONSTERS", "Find or Show MONSTERS",
                           choices=["Find MONSTER", "Show MONSTERS"])
     if choice == "Show MONSTERS":
         monster_index = 0
@@ -122,8 +123,9 @@ def find_show():
                 break
     elif choice == "Find MONSTER":
         find = ""
-        while find != "Return":
-            find = eg.buttonbox("Which MONSTER would you like to find", "MONSTER find", choices=monsters,)
+        while find != "Exit":
+            choices = monsters + ["Exit"]
+            find = eg.buttonbox("Which MONSTER would you like to view", "MONSTER View", choices=choices)
             monster_find = cards.get(find)
             if monster_find is not None:
                 monster_details = f"{find}\n"
@@ -136,6 +138,4 @@ def find_show():
 
 # Main Routine
 welcome()
-eg.msgbox("Thanks for playing with the MONSTER Cards, Goodbye, and have fun", "Goodbye")
-
-
+eg.msgbox("Thanks for playing with the MONSTER Cards,\nGoodbye, and have fun!", "Goodbye")

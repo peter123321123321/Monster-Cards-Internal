@@ -16,6 +16,8 @@ stats = ["Strength", "Speed", "Stealth", "Cunning"]
 # List of MONSTERS
 monsters = ["Stoneling", "Vexscream", "Dawnmirage", "Blazegolem", "Websnake", "Moldvine", "Vortexwing", "Rotthing",
             "Froststep", "Wispghoul"]
+# Stats + Name for editing
+stat_edit = stats + ["Name"]
 
 
 def welcome():
@@ -44,7 +46,7 @@ def add_monster():
         return
     # Check for if the name user chose is already a MONSTER name
     elif monster_name in monsters:
-        eg.msgbox("That MONSTER name is already taken", "MONSTER Name Taken")
+        eg.msgbox(f"{monster_name} is already taken", "MONSTER Name Taken")
         return
     # Append MONSTER name to list
     monsters.append(monster_name)
@@ -59,22 +61,35 @@ def add_monster():
         # Adds stat to dictionary
         cards[monster_name][i] = monster_stat
     while True:
-        # Checks if the details are correct
+        # Asks user if the details are correct + prints MONSTER details
         check = eg.buttonbox(f"Are the details of this MONSTER card correct\n{monster_name}, {cards[monster_name]}",
-                             "Check Details", choices=["Yes", "No"])
+                             "Check details", choices=["Yes", "No"])
+        # Checks if the user is happy with the MONSTER
         if check == "Yes":
-            return
-        # Asks which stat the user would like to change
-        change = eg.buttonbox("Which stat would you like to change", "Stat Change",
-                              choices=["Strength", "Speed", "Stealth", "Cunning"])
-        # Asks user what the new value is then changes it to that
-        edit_stat = eg.integerbox(f"The original stat was {cards[monster_name][change]} "
-                                  f"What would you like the new stat to be", "Stat Change", lowerbound=1, upperbound=25)
-        # Check for if the user presses cancel
-        if edit_stat is None:
-            return
-        # Adds stat to dictionary
-        cards[monster_name][change] = edit_stat
+            break
+            # Asks user what stat they would like to change
+        change = eg.buttonbox("Which stat would you like to change", "Stat change",
+                              choices=stat_edit)
+        # If they want to change the name ask them for the new name then replace the old one with new one
+        if change == "Name":
+            new_name = eg.enterbox("What would you like the new MONSTERS name to be", "Change MONSTER Name")
+            # Check if user presses cancel
+            if new_name is None:
+                break
+            cards[new_name] = cards.pop(monster_name)
+            # Replace name in list
+            monsters[monsters.index(monster_name)] = new_name
+            monster_name = new_name
+        else:
+            # Asks user what they want to change the stat to + print original stat
+            edit_stat = eg.integerbox(f"The original stat was {cards[monster_name][change]} "
+                                      f"what would you like the new stat to be", "Stat change",
+                                      lowerbound=1, upperbound=25)
+            # Check if user pressed cancel
+            if edit_stat is None:
+                break
+            # Add new stat to dictionary
+            cards[monster_name][change] = edit_stat
 
 
 def remove_monster():
@@ -150,21 +165,39 @@ def find_show():
     elif choice == "Find MONSTER":
         find = ""
         while find != "Exit":
-            # List of MONSTERS as choices + Exit
-            choices = monsters + ["Exit"]
-            # Asks user which monster they like to find or Exit
-            find = eg.buttonbox("Which MONSTER would you like to view", "MONSTER View", choices=choices)
-            monster_find = cards.get(find)
-            if monster_find is not None:
-                monster_details = f"{find}\n"
-                # Loops through each stat and adds it to monster_details
-                for stat in stats:
-                    monster_details += f"[{stat}: {monster_find[stat]}] "
-                # Adds total stats to monster_details
-                stat_total = sum(monster_find.values())
-                monster_details += f"\n[Total Stats: {stat_total}]"
-                # Prints monster_details
-                eg.msgbox(monster_details)
+            find = eg.buttonbox("Which MONSTER would you like to find", "MONSTER find",
+                                choices=list(cards.keys()) + ["Exit"])
+            if find == "Exit":
+                break
+            # Asks user if the details are correct + prints MONSTER details
+            check = eg.buttonbox(f"Are the details of this MONSTER card correct\n{find}, {cards[find]}",
+                                 "Check details", choices=["Yes", "No"])
+            # Checks if the user is happy with the MONSTER
+            if check == "Yes":
+                break
+                # Asks user what stat they would like to change
+            change = eg.buttonbox("Which stat would you like to change", "Stat change",
+                                  choices=stat_edit)
+            # If they want to change the name ask them for the new name then replace the old one with new one
+            if change == "Name":
+                new_name = eg.enterbox("What would you like the new MONSTERS name to be", "Change MONSTER Name")
+                # Check if user presses cancel
+                if new_name is None:
+                    break
+                cards[new_name] = cards.pop(find)
+                # Replace name in list
+                monsters[monsters.index(find)] = new_name
+                find = new_name
+            else:
+                # Asks user what they want to change the stat to + print original stat
+                edit_stat = eg.integerbox(f"The original stat was {cards[find][change]} "
+                                          f"what would you like the new stat to be", "Stat change",
+                                          lowerbound=1, upperbound=25)
+                # Check if user pressed cancel
+                if edit_stat is None:
+                    break
+                # Add new stat to dictionary
+                cards[find][change] = edit_stat
 
 
 # Main Routine

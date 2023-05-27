@@ -3,8 +3,9 @@ import easygui as eg
 
 def welcome():
     while True:
-        function = {"Add_Remove": add_remove,
-                    "Find_Show": find_show,
+        function = {"Add MONSTER": add_monster,
+                    "Remove MONSTER": remove_monster,
+                    "Find Show": find_show,
                     "Exit": exit}
         guide = eg.buttonbox("Welcome to The Takeaway Shop\n"
                              "What would you like to do today", "The Takeaway Shop",
@@ -15,12 +16,16 @@ def welcome():
         chosen_function()
 
 
-def add_remove():
-    print("workin")
+def add_monster():
+    eg.msgbox("Add_Monster")
+
+
+def remove_monster():
+    eg.msgbox("Remove_Monster")
 
 
 def find_show():
-    print("workin")
+    eg.msgbox("Find_Show")
 
 
 # Main Routine

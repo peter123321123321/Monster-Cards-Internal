@@ -41,3 +41,7 @@ def add_monster():
         if edit_stat is None:
             exit()
         cards[monster_name][change] = edit_stat
+
+
+# Main Routine
+add_monster()

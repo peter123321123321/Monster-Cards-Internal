@@ -55,7 +55,7 @@ def add_monster():
                                      lowerbound=1, upperbound=25)
         # Check for if the user presses cancel
         if monster_stat is None:
-            temp_stats[i] = monster_stat
+            temp_stats.clear()
             return
         # Adds stat to temp dictionary
         temp_stats[i] = monster_stat

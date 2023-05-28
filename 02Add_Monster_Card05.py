@@ -22,37 +22,32 @@ def add_monster():
 
     if monster_name is None:
         return
-
     temp_stats = {}
     for i in stats:
-        monster_stat = eg.integerbox(f"What is the level of your MONSTERS {i}", f"MONSTER {i}", lowerbound=1, upperbound=25)
+        monster_stat = eg.integerbox(f"What is the level of your MONSTERS {i}", f"MONSTER {i}",
+                                     lowerbound=1, upperbound=25)
         if monster_stat is None:
             temp_stats.clear()
             return
         temp_stats[i] = monster_stat
-
     monsters.append(monster_name)
     cards[monster_name] = {}
     cards[monster_name] = temp_stats
-
     while True:
         check = eg.buttonbox(f"Are the details of this MONSTER card correct\n{monster_name}, {cards[monster_name]}",
                              "Check details", choices=["Yes", "No"])
-
         if check == "Yes":
             break
         change = eg.buttonbox("Which stat would you like to change", "Stat change",
                               choices=stat_edit)
-
         if change == "Name":
             new_name = eg.enterbox("What would you like the new MONSTERS name to be", "Change MONSTER Name")
             cards[new_name] = cards.pop(monster_name)
             monster_name = new_name
-
         else:
             edit_stat = eg.integerbox(f"The original stat was {cards[monster_name][change]} "
-                                      f"what would you like the new stat to be", "Stat change", lowerbound=1, upperbound=25)
-
+                                      f"what would you like the new stat to be", "Stat change",
+                                      lowerbound=1, upperbound=25)
             if edit_stat is None:
                 return
             cards[monster_name][change] = edit_stat

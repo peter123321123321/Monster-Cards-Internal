@@ -48,18 +48,22 @@ def add_monster():
     elif monster_name in monsters:
         eg.msgbox(f"{monster_name} is already taken", "MONSTER Name Taken")
         return
-    # Append MONSTER name to list
-    monsters.append(monster_name)
-    cards[monster_name] = {}
+    temp_stats = {}
     # Loops and asks user the level of each of the MONSTERS stats
     for i in stats:
         monster_stat = eg.integerbox(f"What is the level of your MONSTERS {i}", f"MONSTER {i}",
                                      lowerbound=1, upperbound=25)
         # Check for if the user presses cancel
         if monster_stat is None:
+            temp_stats[i] = monster_stat
             return
-        # Adds stat to dictionary
-        cards[monster_name][i] = monster_stat
+        # Adds stat to temp dictionary
+        temp_stats[i] = monster_stat
+
+    # Add monster name to dictionary
+    monsters.append(monster_name)
+    cards[monster_name] = {}
+    cards[monster_name] = temp_stats
     while True:
         # Asks user if the details are correct + prints MONSTER details
         check = eg.buttonbox(f"Are the details of this MONSTER card correct\n{monster_name}, {cards[monster_name]}",

@@ -1,8 +1,9 @@
-"""This is the final version combining all the previous components
+"""This is the final version combining all the previous components.
 and modified to adhere to the feedback given."""
 import easygui as eg
 
 
+# Function directing user to chosen function
 def welcome():
     while True:
         # Dictionary with options for each function
@@ -21,6 +22,7 @@ def welcome():
         chosen_function()
 
 
+# Function that lets user add + edit monster cards
 def add_monster():
     # Enterbox for user to input MONSTER name
     monster_name = eg.enterbox("What is the name of your new MONSTER",
@@ -87,6 +89,7 @@ def add_monster():
             cards[monster_name][change] = edit_stat
 
 
+# Function that lets user delete monster cards
 def remove_monster():
     monster_index = 0
     while True:
@@ -129,12 +132,16 @@ def remove_monster():
             break
 
 
+# Function that lets the user search for a specific monster
+# or print to the python dictionary
 def find_show():
     # Asks user whether they want to find or show MONSTERS
     choice = eg.buttonbox("Would you like to view a MONSTER or "
                           "show all MONSTERS", "Find or Show MONSTERS",
                           choices=["Find MONSTER", "Show MONSTERS"])
     if choice == "Show MONSTERS":
+        print()
+        # loops through dictionary printing MONSTER + stats
         for monster, stat in cards.items():
             print(f"{monster}, {stat}")
     elif choice == "Find MONSTER":

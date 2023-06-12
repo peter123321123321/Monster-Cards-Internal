@@ -1,5 +1,5 @@
-"""This is the final version combining all the previous components.
-and modified to adhere to the feedback given."""
+"""This is the final version combining all the previous
+components and modified to adhere to the feedback given."""
 import easygui as eg
 
 
@@ -11,9 +11,9 @@ def welcome():
                     "Remove MONSTER": remove_monster,
                     "Find/Show MONSTER": find_show,
                     "Exit": exit}
-        # Button box that lets you choose which function you'd like to go to
+        # Button box that lets you choose a function to redirect to
         guide = eg.buttonbox("Welcome to The MONSTERS\n"
-                             "What would you like to do today", "The MONSTERS",
+                             "What would you like to do", "The MONSTERS",
                              choices=list(function.keys()))
         if guide == "Exit":
             break
@@ -25,20 +25,21 @@ def welcome():
 # Function that lets user add + edit monster cards
 def add_monster():
     # Enterbox for user to input MONSTER name
-    monster_name = eg.enterbox("What is the name of your new MONSTER",
-                               "MONSTER Name")
+    monster_name = eg.enterbox("What is the name of your "
+                               "new MONSTER", "MONSTER Name")
     # Check for if the user presses cancel
     if monster_name is None:
         return
     # Check for if the name user chose is already a MONSTER name
     elif monster_name in monsters:
-        eg.msgbox(f"{monster_name} is already taken", "MONSTER Name Taken")
+        eg.msgbox(f"{monster_name} is already taken",
+                  "MONSTER Name Taken")
         return
     temp_stats = {}
     # Loops and asks user the level of each of the MONSTERS stats
     for i in stats:
-        monster_stat = eg.integerbox(f"What is the level of your MONSTERS {i}",
-                                     f"MONSTER {i}",
+        monster_stat = eg.integerbox(f"What is the level of your "
+                                     f"MONSTERS {i}", f"MONSTER {i}",
                                      lowerbound=1, upperbound=25)
         # Check for if the user presses cancel
         if monster_stat is None:
@@ -65,8 +66,8 @@ def add_monster():
         # If they want to change the name ask them for the new name
         # then replace the old one with new one
         if change == "Name":
-            new_name = eg.enterbox("What would you like the new MONSTERS "
-                                   "name to be", "Change MONSTER Name")
+            new_name = eg.enterbox("What would you like the MONSTERS new"
+                                   " name to be", "Change MONSTER Name")
             # Check if user presses cancel
             if new_name is None:
                 break
@@ -79,7 +80,7 @@ def add_monster():
             # + print original stat
             edit_stat = eg.integerbox(f"The original stat was "
                                       f"{cards[monster_name][change]}\n"
-                                      f"what should the new stat to be",
+                                      f"what should the new stat be",
                                       "Stat change",
                                       lowerbound=1, upperbound=25)
             # Check if user pressed cancel
@@ -108,7 +109,8 @@ def remove_monster():
         # Prints mns, Asks user if they want to go to the
         # Previous, Next, Delete the current MONSTER, or Exit
         choice = eg.buttonbox(mns, "MONSTER Catalogue",
-                              choices=["Previous", "Next", "Delete", "Exit"])
+                              choices=["Previous", "Next",
+                                       "Delete", "Exit"])
         # Check for if the user presses cancel
         if choice is None:
             exit()
@@ -165,8 +167,8 @@ def find_show():
             # If they want to change the name ask them for the new name
             # then replace the old one with new one
             if change == "Name":
-                new_name = eg.enterbox("What would you like the new MONSTERS "
-                                       "name to be", "Change MONSTER Name")
+                new_name = eg.enterbox("What would you like the MONSTERS new"
+                                       " name to be", "Change MONSTER Name")
                 # Check if user presses cancel
                 if new_name is None:
                     break
@@ -179,8 +181,8 @@ def find_show():
                 # + print original stat
                 edit_stat = eg.integerbox(f"The original stat was "
                                           f"{cards[find][change]} "
-                                          f"what would you like "
-                                          f"the new stat to be", "Stat change",
+                                          f"what would you like the new "
+                                          f"stat to be", "Stat change",
                                           lowerbound=1, upperbound=25)
                 # Check if user pressed cancel
                 if edit_stat is None:
